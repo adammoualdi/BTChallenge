@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Report {
 	
@@ -10,7 +11,7 @@ public class Report {
 //		ALIVE,
 //		DEAD;
 //	}
-	private long start;
+	private long end;
 	private String name;
 	private String desc;
 	private String secondName;
@@ -21,14 +22,12 @@ public class Report {
 	NotificationReader rd = new NotificationReader();
 
 	
-	public Report(String alive, long start, String name, String desc, String secondName) {
+	public Report(String alive, long end, String name, String desc, String secondName) {
 		this.alive = alive;
-		this.start = start;
+		this.end = end;
 		this.name = name;
 		this.desc = desc;
 		this.secondName = secondName;
-		rd.readDB("file.txt");
-		notificationList = rd.getList();
 	}
 	
 	public Report(String filename) { 
@@ -45,12 +44,12 @@ public class Report {
 		this.alive = alive;
 	}
 
-	public long getStart() {
-		return start;
+	public long getEnd() {
+		return end;
 	}
 
-	public void setStart(long start) {
-		this.start = start;
+	public void setEnd(long start) {
+		this.end = start;
 	}
 
 	public String getName() {
@@ -77,82 +76,102 @@ public class Report {
 		this.secondName = secondName;
 	}
 
-
-
-
 	
 	public void checkAlive() {
-	//	for (Node node : notificationList) {
-	//		String name = node.getName();
-
-				for (int i = 0; i < notificationList.size()-1; i++ ) {
-					
-					int k = 0;
-					for (k = 0; k < notificationList.size()-1; k++ ) {
-						Node node1 = notificationList.get(i);
-						Node node2 = notificationList.get(k);
-						if (node1.getName().equals(node2.getName())) {
-							if (node1.getStart() <= node2.getStart()) { 
-								if (node2.getDesc().equals("HELLO")) {
-									Report newReport = new Report("ALIVE", node2.getStart(), node2.getName(), node2.getDesc(), node2.getSecondName());
-									report.put(node1.getName(), newReport);
+		for (int i = 0; i < notificationList.size(); i++ ) {
+			for (int k = 0; k < notificationList.size(); k++ ) {
+				Node node1 = notificationList.get(i);
+				Node node2 = notificationList.get(k);
+					if (node1.getName().equals(node2.getName())) {
+						if (node1.getEnd() <= node2.getEnd()) { 
+							if (node2.getDesc().equals("HELLO")) {
+								Report newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
+								report.put(node1.getName(), newReport);
 									
-									System.out.println(node2.getStart() + " " + node2.getName() + " is alive");
+								System.out.println(node2.getEnd() + " " + node2.getName() + " said hello: is alive");
 										
 									
-								}
 							}
-					
-						}
-						if (node1.getSecondName().equals(node2.getSecondName())) {
-								if (node2.getDesc().equals("FOUND")) {
-									Report newReport = new Report("ALIVE", node2.getStart(), node2.getName(), node2.getDesc(), node2.getSecondName());
-									report.put(node1.getName(), newReport);
-									
-									System.out.println(node2.getStart() + " " + node2.getSecondName() + " is alive");
-									
-								}
-						
-							
-						}
-					
-					k++;
 					}
-				i++;
-				}	
-				System.out.println("DEAD");
+						if (node1.getEnd() <= node2.getEnd()) {
+							if ((node1.getSecondName().equals(node2.getSecondName()) && (!node1.getSecondName().equals("NULL")))) {
+								if (node2.getDesc().equals("FOUND")) {
+									
+									//If getName finds someone: they are alive.
+								
+									Report newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
+									report.put(node2.getName(), newReport);
+									
+									System.out.println("1 " + node2.getEnd() + " " + node2.getName() + " found someone: is alive");
+									
+									//If secondName is found: they are alive.
+									newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
+									report.put(node2.getSecondName(), newReport);
+									System.out.println(report.keySet());
+									System.out.println("2 " + node2.getEnd() + " " + node2.getSecondName() + " has been found: is alive");
+								}	
+							}
+						}
+						if (node2.getDesc().equals("LOST")) {
+							if (node1.getEnd() < node2.getEnd()) {
+								Report newReport = new Report("DEAD", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
+								report.put(node2.getSecondName(), newReport);
+								
+								System.out.println(node2.getStart() + " " + node2.getSecondName() + " has been lost: is dead");
+								
+								newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
+								report.put(node2.getName(), newReport);
+								System.out.println(node2.getEnd() + " " + node2.getName() + " has lost someone: is alive");
+							}
+						}
+					}		
 			}
-		
+		}	
+	}
 
-		
-//	}
 
 	
 	public String getReportList() {
 		StringBuilder newReport = new StringBuilder("");
 		String s = " ";
 		for (Node n : notificationList) {
-			newReport.append(n.getName() + " ALIVE " + n.getStart() + s + n.getName() + s + n.getDesc() + s + n.getSecondName() +  "\n");
+			newReport.append(n.getName() + " ALIVE " + n.getEnd() + s + n.getName() + s + n.getDesc() + s + n.getSecondName() +  "\n");
 		}
 		return newReport.toString();
 	}
 	
-	public String getReportMap() {
-		StringBuilder newReport = new StringBuilder("");
-		String s = " ";
-		for (Report n : report.values()) {
-			newReport.append(n.getName() + s + n.getAlive() + s + n.getStart() + s + n.getName() + s + n.getDesc() + s + n.getSecondName() + "\n");
-		}
-		return newReport.toString();
+	public HashMap<String, Report> getMap() {
+		return report;
 	}
-
-
+	
+//	public String getReportMap() {
+//		StringBuilder newReport = new StringBuilder("");
+//		String s = " ";
+//		for (Report n : getMap().values()) {
+//			newReport.append(n.getName() + s + n.getAlive() + s + n.getStart() + s + n.getName() + s + n.getDesc() + s + (!(n.secondName.equals("NULL")) ? n.getSecondName() : "") + "\n");
+//		}
+//		return newReport.toString();
+//}
+	
+	public void getReportMap() {
+		for (Map.Entry<String, Report> entry : report.entrySet()) {
+			System.out.println(entry.getKey()+" : "+entry.getValue().toString());
+		}
+	}
+	
+	public String toString() {
+		String s = " ";
+		return s + getAlive() + s + getEnd() + s + getName() + s + getDesc() + s + (!(secondName.equals("NULL")) ? getSecondName() : "");
+	}
 	
 	public static void main(String[] args) {
 		Report r = new Report("src/file.txt");
-		System.out.println(r.getReportList());
+//		System.out.println(r.getReportList());
+		System.out.println(r.getMap());
 		r.checkAlive();
-		System.out.println(r.getReportMap());
+		System.out.println(r.getMap());
+//		System.out.println(r.getReportMap());
+		r.getReportMap();
 	}
 }
 

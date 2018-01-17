@@ -12,13 +12,13 @@ public class Node implements Serializable {
 //		HELLO, LOST, FOUND  
 //	}
 	
-//	public Node(long recieved, long generated, String name, String desc) {
-//		this.recieved = recieved;
-//		this.generated = generated;
-//		this.name = name;
-//		this.desc = desc;
-//		secondName = null;
-//	}
+	public Node(long recieved, long generated, String name, String desc) {
+		this.recieved = recieved;
+		this.generated = generated;
+		this.name = name;
+		this.desc = desc;
+		secondName = null;
+	}
 	
 	public Node(long recieved, long generated, String name, String desc, String secondName) {
 		this.recieved = recieved;
@@ -67,16 +67,6 @@ public class Node implements Serializable {
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
-
-	
-//	@Override
-//	public String toString() {
-//		String s = " ";
-//		for (desc d : desc.values()) {
-//			System.out.println(recieved + s + generated + s + name + s + d);
-//		}
-//		return recieved + s + generated + s + name;
-//	}
 
 	public String notificationOutput() {
 		String s = " ";

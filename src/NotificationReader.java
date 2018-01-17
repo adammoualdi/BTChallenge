@@ -1,5 +1,4 @@
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,52 +7,46 @@ import java.util.Scanner;
 
 public class NotificationReader {
 	
-    public List<Node> notificationList = new ArrayList<Node>();
+    private List<Node> notificationList = new ArrayList<Node>();
 	
     public void readDB(String filename) {
+    	Scanner scanner = null;
     	try {
-    	Scanner input = new Scanner(new File(filename));
+    		scanner = new Scanner(new File(filename));
 
-        while(input.hasNext()) {
+        while(scanner.hasNext()) {
         	try {
-            long start = input.nextLong();
-            long end = input.nextLong();
-            String name = input.next();
-            String desc = input.next();
-            String secondName = input.next();
-            Node newNode = new Node(start, end, name, desc, secondName);
-            notificationList.add(newNode);
+	            long start = scanner.nextLong();
+	            long end = scanner.nextLong();
+	            String name = scanner.next();
+	            String desc = scanner.next();
+	            String secondName = scanner.next();
+	            // create new Node
+	            Node newNode = new Node(start, end, name, desc, secondName);
+	            notificationList.add(newNode);
         	} catch(Exception e) {
-        		System.out.println("error");
-  //      		e.printStackTrace();
+        		System.out.println("error, can't read file.");
+        		e.printStackTrace();
         		System.exit(0);
         	}
         }
 
-        for (Node node : notificationList) {
- //           System.out.println(node);
-        }
     	} catch(IOException e) {
-//    		System.out.println("Exception");
-//    		e.printStackTrace();
+    		System.out.println("Exception, can not find text file.");
+    		e.printStackTrace();
     	}
-    	
+
+    	scanner.close();
     }
     
     public List<Node> getList() {
     	return notificationList;
-//    	List<Node> tmpList = new ArrayList<Node>();
-//    	for (Node n : notificationList) {
-//    		tmpList.add(n);
-//    	}
-//    	return tmpList;
     }
-    
     
     
 	public static void main(String[] args) {
 		NotificationReader nr = new NotificationReader();
-		nr.readDB("file.txt");
+		nr.readDB("src/file.txt");
 		System.out.println(nr.getList());
 	}
 }
