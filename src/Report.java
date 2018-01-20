@@ -88,7 +88,7 @@ public class Report {
 								Report newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
 								report.put(node1.getName(), newReport);
 									
-								System.out.println(node2.getEnd() + " " + node2.getName() + " said hello: is alive");
+						//		System.out.println(node2.getEnd() + " " + node2.getName() + " said hello: is alive");
 										
 									
 							}
@@ -102,13 +102,13 @@ public class Report {
 									Report newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
 									report.put(node2.getName(), newReport);
 									
-									System.out.println("1 " + node2.getEnd() + " " + node2.getName() + " found someone: is alive");
+						//			System.out.println("1 " + node2.getEnd() + " " + node2.getName() + " found someone: is alive");
 									
 									//If secondName is found: they are alive.
 									newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
 									report.put(node2.getSecondName(), newReport);
-									System.out.println(report.keySet());
-									System.out.println("2 " + node2.getEnd() + " " + node2.getSecondName() + " has been found: is alive");
+						//			System.out.println(report.keySet());
+						//			System.out.println("2 " + node2.getEnd() + " " + node2.getSecondName() + " has been found: is alive");
 								}	
 							}
 						}
@@ -117,11 +117,11 @@ public class Report {
 								Report newReport = new Report("DEAD", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
 								report.put(node2.getSecondName(), newReport);
 								
-								System.out.println(node2.getStart() + " " + node2.getSecondName() + " has been lost: is dead");
+						//		System.out.println(node2.getStart() + " " + node2.getSecondName() + " has been lost: is dead");
 								
 								newReport = new Report("ALIVE", node2.getEnd(), node2.getName(), node2.getDesc(), node2.getSecondName());
 								report.put(node2.getName(), newReport);
-								System.out.println(node2.getEnd() + " " + node2.getName() + " has lost someone: is alive");
+						//		System.out.println(node2.getEnd() + " " + node2.getName() + " has lost someone: is alive");
 							}
 						}
 					}		
@@ -144,15 +144,6 @@ public class Report {
 		return report;
 	}
 	
-//	public String getReportMap() {
-//		StringBuilder newReport = new StringBuilder("");
-//		String s = " ";
-//		for (Report n : getMap().values()) {
-//			newReport.append(n.getName() + s + n.getAlive() + s + n.getStart() + s + n.getName() + s + n.getDesc() + s + (!(n.secondName.equals("NULL")) ? n.getSecondName() : "") + "\n");
-//		}
-//		return newReport.toString();
-//}
-	
 	public void getReportMap() {
 		for (Map.Entry<String, Report> entry : report.entrySet()) {
 			System.out.println(entry.getKey()+" : "+entry.getValue().toString());
@@ -174,10 +165,3 @@ public class Report {
 		r.getReportMap();
 	}
 }
-
-//List<String> checkName = new ArrayList<String>();
-//if (checkName.contains(name)) {
-//System.out.println("name exists");
-//}
-//else {
-//	checkName.add(name);

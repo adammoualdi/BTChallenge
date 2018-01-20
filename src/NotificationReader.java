@@ -26,14 +26,14 @@ public class NotificationReader {
 	            notificationList.add(newNode);
         	} catch(Exception e) {
         		System.out.println("error, can't read file.");
-        		e.printStackTrace();
+//        		e.printStackTrace();
         		System.exit(0);
         	}
         }
 
     	} catch(IOException e) {
     		System.out.println("Exception, can not find text file.");
-    		e.printStackTrace();
+//    		e.printStackTrace();
     	}
 
     	scanner.close();
